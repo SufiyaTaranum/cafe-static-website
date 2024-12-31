@@ -44,6 +44,7 @@ jobs:
             HOSTNAME: ${{secrets.SSH_HOST}}
             USER_NAME: ${{secrets.USER_NAME}}
             DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/cafestaticweb
+            DOCKER_TAG: v${{ github.run_number }}
       
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
@@ -52,6 +53,6 @@ jobs:
           sudo apt update -y
           sudo apt install docker.io -y
           sudo systemctl status docker
-          sudo docker run -d -p 80:80 $DOCKER_IMAGE:v${{ github.run_number }}
+          sudo docker run -d -p 80:80 $DOCKER_IMAGE:$DOCKER_TAG
           sudo docker ps
           '
