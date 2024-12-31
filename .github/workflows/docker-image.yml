@@ -28,4 +28,4 @@ jobs:
         context: .
         push: true
         tags: |
-          ${{ secrets.DOCKER_USERNAME }}/cafesaticweb:v${{ github.run_number }}
+          ${{ secrets.DOCKER_USERNAME }}/cafestaticweb:v${{ github.run_number }}
