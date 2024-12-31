@@ -51,6 +51,11 @@ jobs:
           echo "DOCKER_TAG: $DOCKER_TAG"
           
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+
+          # Set the environment variables before running the SSH command
+          export DOCKER_IMAGE=${DOCKER_IMAGE}
+          export DOCKER_TAG=${DOCKER_TAG}
+          
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
           # Now we have got the access of EC2 and we will start the deploy .
           sudo apt update -y
