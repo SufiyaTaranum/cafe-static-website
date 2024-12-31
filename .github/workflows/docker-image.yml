@@ -29,3 +29,28 @@ jobs:
         push: true
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/cafestaticweb:v${{ github.run_number }}
+
+
+  Deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2 
+      - name: Build & Deploy
+        env:
+            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            HOSTNAME: ${{secrets.SSH_HOST}}
+            USER_NAME: ${{secrets.USER_NAME}}
+            DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/cafestaticweb:v${{ github.run_number }}
+      
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+          # Now we have got the access of EC2 and we will start the deploy .
+          apt update -y
+          apt install docker.io -y
+          systemctl status docker
+          docker run -d -p 80:80 $DOCKER_IMAGE
+          docker ps
+          '
