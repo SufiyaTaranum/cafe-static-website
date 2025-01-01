@@ -43,8 +43,10 @@ jobs:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           HOSTNAME: ${{ secrets.SSH_HOST }}
           USER_NAME: ${{ secrets.USER_NAME }}
-          DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/cafestaticweb
-          DOCKER_TAG: v${{ github.run_number }}
+          #DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/cafestaticweb
+          DOCKER_IMAGE: neehar2601/cafestaticweb
+          #DOCKER_TAG: v${{ github.run_number }}
+          DOCKER_TAG: latest
   
         run: |
           echo "DOCKER_IMAGE: $DOCKER_IMAGE"
