@@ -43,21 +43,15 @@ jobs:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           HOSTNAME: ${{ secrets.SSH_HOST }}
           USER_NAME: ${{ secrets.USER_NAME }}
-          #DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/cafestaticweb
+          DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/cafestaticweb
           #DOCKER_IMAGE: neehar2601/cafestaticweb
-          DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE }}
-          #DOCKER_TAG: v${{ github.run_number }}
+          DOCKER_TAG: v${{ github.run_number }}
           #DOCKER_TAG: v16
-          DOCKER_TAG: ${{ secrets.DOCKER_TAG }}
   
         run: |
           echo "from environmanet variables"
           echo "DOCKER_IMAGE: $DOCKER_IMAGE"
           echo "DOCKER_TAG: $DOCKER_TAG"
-
-          echo "from variables"
-          echo "DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE }}"
-          echo "DOCKER_TAG: ${{ secrets.DOCKER_TAG }}"
           
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
 
@@ -67,6 +61,10 @@ jobs:
           
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
           # Now we have got the access of EC2 and we will start the deploy .
+          
+          export DOCKER_IMAGE=${DOCKER_IMAGE}
+          export DOCKER_TAG=${DOCKER_TAG}
+          
           sudo apt update -y
           sudo apt install docker.io -y
           sudo systemctl status docker
