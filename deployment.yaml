@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: staticweb
-        image: neehar2601/staticweb:v1
+        image: sufiyataranum/cafeapp:v1
         ports:
         - containerPort: 80
